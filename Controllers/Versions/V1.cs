@@ -9,16 +9,29 @@ using System.Threading.Tasks;
 namespace APIVersioning.Core.Controllers.V1
 {
     /// <summary>
-    /// This object can be shared between V1 items as it is breaks Beta
+    /// This object can be shared between V1 items (Except V1.2) as it is breaks Beta
     /// </summary>
     [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
     public class CoreObject : BaseJsonObject
     {
         /// <summary>
         /// A Value that would only exist in V1 objects
-        /// </summary>
+        /// </summary>        
         [JsonProperty]
         public String V1Value { get; set; }
+    }
+
+    /// <summary>
+    /// This object is an implementation of V1 object but specific to V1.2 onwards
+    /// </summary>
+    [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
+    public class CoreObjectV1_2 : CoreObject
+    {
+        /// <summary>
+        /// An extra property that only appears on V1.2
+        /// </summary>
+        [JsonProperty]
+        public String V1_2Value { get; set; }
     }
 
     /// <summary>
@@ -40,6 +53,6 @@ namespace APIVersioning.Core.Controllers.V1
 
         [HttpGet, MapToApiVersion("1.2")]
         [Route("get")]
-        public String GetV12() => $"This is the V1.0 controller => {JsonConvert.SerializeObject(new CoreObject() { V1Value = "V1.2" })}";
+        public String GetV12() => $"This is the V1.0 controller => {JsonConvert.SerializeObject(new CoreObjectV1_2() { V1Value = "V1.2", V1_2Value = "Value Only found on V1.2" })}";
     }
 }
