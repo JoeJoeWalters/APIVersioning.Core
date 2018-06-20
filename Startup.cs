@@ -30,6 +30,7 @@ namespace APIVersioning.Core
             {
                 o.ApiVersionReader = new HeaderApiVersionReader("api-version");
                 o.AssumeDefaultVersionWhenUnspecified = true;
+                o.ReportApiVersions = true;
             });
         }
 
